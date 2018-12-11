@@ -1,0 +1,28 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Image x:Name="img" Grid.Row="0" />
+        
+
+
+        <Button x:Name="btnExcute" Grid.Row="1" Content="识别" />
+        <RichTextBox x:Name="txtImage" Grid.Row="2" />
+        <DataGrid x:Name="dg1" Grid.Row="3" 
+                  AutoGenerateColumns="True">
+
+        </DataGrid>
+    </Grid>
+</Window>
