@@ -5,24 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800">
+        Title="OCRTools" Height="600" Width="600">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Image x:Name="img" Grid.Row="0" />
-        
+        <Grid>
 
 
-        <Button x:Name="btnExcute" Grid.Row="1" Content="识别" />
-        <RichTextBox x:Name="txtImage" Grid.Row="2" />
-        <DataGrid x:Name="dg1" Grid.Row="3" 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.3*" />
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="dg1" Grid.Row="0" 
+                  SelectionUnit="CellOrRowHeader"
+                  CanUserAddRows="False"
                   AutoGenerateColumns="True">
 
-        </DataGrid>
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button x:Name="btnExcute_GeneralBasic" Content="识别" Width="100" />
+                <Button x:Name="btnExcute_General" Content="识别(含位置信息)" Width="100" />
+                <Button x:Name="btnExcute_AccurateBasic" Content="高精度识别" Width="100" />
+                <Button x:Name="btnExcute_Accurate" Content="高精度识别(含位置信息)" Width="100" />
+            </StackPanel>
+
+            <TextBlock Grid.Row="2" Text="将图片粘贴到下方的输入框" Background="SkyBlue" />
+            <RichTextBox x:Name="txtImage" Grid.Row="3" />
+        </Grid>
+        <local:UcWait x:Name="ucBusy" />
     </Grid>
 </Window>
