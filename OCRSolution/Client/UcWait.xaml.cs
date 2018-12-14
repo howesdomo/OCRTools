@@ -19,32 +19,28 @@ namespace Client
     /// </summary>
     public partial class UcWait : UserControl
     {
+        UcWait_ViewModel ViewModel { get; set; }
+
         public UcWait()
         {
             InitializeComponent();
 
-            // MediaElement 只能使用绝对路径???? 用程序内部资源加载失败
+            this.ViewModel = new UcWait_ViewModel();
+            this.DataContext = this.ViewModel;
+
+            initEvent();
+        }
+
+        private void initEvent()
+        {
+            // MediaElement 只能使用绝对路径? 用程序内部资源加载失败
             var uri = System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "Images", "wait.gif");
             meWait.Source = new Uri(uri);
-            meWait.MediaEnded += GifMedia_MediaEnded;
-        }
-
-        private void GifMedia_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            meWait.Position = new TimeSpan(0, 0, 1);
-            meWait.Play();
-        }
-
-        private bool isBusy = false;
-
-        public bool IsBusy
-        {
-            get { return this.isBusy; }
-            set
+            meWait.MediaEnded += (s, e) =>
             {
-                this.isBusy = value;
-                this.execute();
-            }
+                meWait.Position = new TimeSpan(hours: 0, minutes: 0, seconds: 1);
+                meWait.Play();
+            };
         }
 
         private void execute()
@@ -56,8 +52,59 @@ namespace Client
             else
             {
                 this.gWait.Visibility = Visibility.Hidden;
-            }            
+            }
+
+            this.ViewModel.BusyContent = this.ViewModel._Defalut_BusyContent_;
+        }
+
+        private bool _IsBusy = false;
+
+        public bool IsBusy
+        {
+            get
+            {
+                return this._IsBusy;
+            }
+            set
+            {
+                this._IsBusy = value;
+                execute();
+            }
+        }
+
+        public string BusyContent
+        {
+            get
+            {
+                return this.ViewModel.BusyContent;
+            }
+            set
+            {
+                this.ViewModel.BusyContent = value;
+            }
         }
 
     }
+
+    public class UcWait_ViewModel : ViewModel.BaseViewModel
+    {
+        public string _Defalut_BusyContent_ = "请稍候...";
+
+        private string _BusyContent = "请稍候...";
+
+        public string BusyContent
+        {
+            get
+            {
+                return _BusyContent;
+            }
+            set
+            {
+                _BusyContent = value;
+                this.OnPropertyChanged("BusyContent");
+            }
+        }
+
+    }
+
 }

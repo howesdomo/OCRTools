@@ -42,7 +42,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+      <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,9 +63,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FrmInput.xaml.cs">
+      <DependentUpon>FrmInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UcWait.xaml.cs">
       <DependentUpon>UcWait.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Page Include="FrmInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,9 +123,7 @@
     <Content Include="DLL\AipSdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DLL\Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="DLL\Newtonsoft.Json.dll" />
     <Content Include="Resources\Images\wait.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

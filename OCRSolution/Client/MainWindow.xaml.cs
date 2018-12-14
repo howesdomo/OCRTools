@@ -29,12 +29,97 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-            this.Title = this.Title + "- V{0}".FormatWith(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            this.Title = this.Title + " - V{0}".FormatWith(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            initData();
+
             OCRUtils_Baidu.InitBaiduKey();
 
             initUI();
             initEvent();
             this.txtImage.Focus();
+        }
+
+        private void initData()
+        {
+            if (System.IO.File.Exists(App.FullName) == false)
+            {
+                ShowApiSecurityInfo();
+                return;
+            }
+
+            string jsonStr = System.IO.File.ReadAllText(App.FullName);
+            List<ApiSecurityInfo> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
+
+            if (list == null || list.Count <= 0)
+            {
+                ShowApiSecurityInfo();
+                return;
+            }
+
+            cbxBaiduApiKey.ItemsSource = list;
+
+            var matchFirst = list[0];
+
+            cbxBaiduApiKey.SelectedItem = matchFirst;
+            OCRUtils_Baidu.SetBaiduKey(matchFirst);
+
+        }
+
+        private void ShowApiSecurityInfo()
+        {
+            FrmInput frm = new FrmInput();
+            frm.ShowDialog();
+
+            if (frm.IsSubmit == true)
+            {
+                ApiSecurityInfo toAdd = new ApiSecurityInfo()
+                {
+                    ApiID = frm.ApiID,
+                    ApiKey = frm.ApiKey,
+                    SecretKey = frm.SecretKey
+                };
+
+
+                string jsonStr = string.Empty;
+                if (System.IO.File.Exists(App.FullName))
+                {
+                    jsonStr = System.IO.File.ReadAllText(App.FullName);
+                }
+
+                List<ApiSecurityInfo> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
+                if (list == null || list.Count <= 0)
+                {
+                    list = new List<ApiSecurityInfo>();
+                    list.Add(toAdd);
+                }
+                else
+                {
+                    if (list.Exists(i => i.Equals(toAdd)) == false)
+                    {
+                        list.Add(toAdd);
+                    }
+                }
+
+                jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(list);
+                System.IO.File.WriteAllText(App.FullName, jsonStr);
+                initData();
+            }
+            else
+            {
+                initData();
+            }
+        }
+
+        private void BtnManager_Click(object sender, RoutedEventArgs e)
+        {
+            ShowApiSecurityInfo();
+        }
+
+        private void CbxBaiduApiKey_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApiSecurityInfo selected = cbxBaiduApiKey.SelectedItem as ApiSecurityInfo;
+            OCRUtils_Baidu.SetBaiduKey(selected);
         }
 
         private void initUI()
@@ -62,8 +147,12 @@ namespace Client
             this.btnExcute_AccurateBasic.Click += BtnExcute_AccurateBasic_Click;
             this.btnExcute_Accurate.Click += BtnExcute_Accurate_Click;
 
+            this.btnManager.Click += BtnManager_Click;
+            this.cbxBaiduApiKey.SelectionChanged += CbxBaiduApiKey_SelectionChanged;
+
             DataObject.AddPastingHandler(this.txtImage, pastingEvent);
         }
+
 
         private void pastingEvent(object sender, DataObjectPastingEventArgs e)
         {
@@ -100,6 +189,8 @@ namespace Client
                         }
 
                         ucBusy.IsBusy = true;
+                        ucBusy.BusyContent = "分析中, 请稍候...";
+
                         this.MethodName = "GeneralBasic";
                         this.CurrentImage = byteArr_Image;
                         bgWorker.RunWorkerAsync(byteArr_Image);
@@ -114,15 +205,15 @@ namespace Client
                 }
                 catch (Exception ex)
                 {
-                    string msg = "{0}{1}".FormatWith("获取图片资源失败.", ex.Message);                    
+                    string msg = "{0}{1}".FormatWith("获取图片资源失败.", ex.Message);
                     Action<String> UI_ShowMessageBox_Action = new Action<string>(UI_ShowMessageBox);
-                    this.Dispatcher.BeginInvoke(method: UI_ShowMessageBox_Action, args : new object[1] { msg });                    
+                    this.Dispatcher.BeginInvoke(method: UI_ShowMessageBox_Action, args: new object[1] { msg });
                     e.CancelCommand();
                 }
             }
         }
 
-        
+
 
         private void UI_ShowMessageBox(string msg)
         {
@@ -219,6 +310,7 @@ namespace Client
                 return;
             }
             ucBusy.IsBusy = true;
+            ucBusy.BusyContent = "分析中, 请稍候...";
             bgWorker.RunWorkerAsync(this.CurrentImage);
         }
 

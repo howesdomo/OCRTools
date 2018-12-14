@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="OCRTools" Height="600" Width="600">
     <Grid>
         <Grid>
@@ -28,6 +29,12 @@
                 <Button x:Name="btnExcute_General" Content="识别(含位置信息)" Width="100" />
                 <Button x:Name="btnExcute_AccurateBasic" Content="高精度识别" Width="100" />
                 <Button x:Name="btnExcute_Accurate" Content="高精度识别(含位置信息)" Width="100" />
+
+                <TextBlock Text="Key" VerticalAlignment="Center" Margin="20 0 5 0" />
+                <ComboBox x:Name="cbxBaiduApiKey" DisplayMemberPath="ApiID" Width="80">
+                </ComboBox>
+                
+                <Button x:Name="btnManager" Content="管理" Width="61" />
             </StackPanel>
 
             <TextBlock Grid.Row="2" Text="将图片粘贴到下方的输入框" Background="SkyBlue" />

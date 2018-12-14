@@ -20,6 +20,13 @@ namespace Client
             SecretKey = "2ttcyrZ0m4uqXRqBhsqBkT6kfGLj60Ga";
         }
 
+        public static void SetBaiduKey(ApiSecurityInfo i)
+        {
+            ApiID = i.ApiID;
+            ApiKey = i.ApiKey;
+            SecretKey = i.SecretKey;
+        }
+
         /// <summary>
         /// 通用文字识别
         /// </summary>
