@@ -63,12 +63,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj">
-      <Project>{cded6bcd-5a0f-489b-9915-972d875856a5}</Project>
-      <Name>Client</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="DLL\Newtonsoft.Json.dll" />
     <Content Include="Images\0~9_A~G.png" />
   </ItemGroup>

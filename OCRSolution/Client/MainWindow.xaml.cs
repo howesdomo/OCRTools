@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Util.OCR;
 
 namespace Client
 {
@@ -49,7 +43,7 @@ namespace Client
             }
 
             string jsonStr = System.IO.File.ReadAllText(App.FullName);
-            List<ApiSecurityInfo> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
+            List<ApiSecurityInfo> list = Util.JsonUtils.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
 
             if (list == null || list.Count <= 0)
             {
@@ -87,7 +81,7 @@ namespace Client
                     jsonStr = System.IO.File.ReadAllText(App.FullName);
                 }
 
-                List<ApiSecurityInfo> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
+                List<ApiSecurityInfo> list = Util.JsonUtils.DeserializeObject<List<ApiSecurityInfo>>(jsonStr);
                 if (list == null || list.Count <= 0)
                 {
                     list = new List<ApiSecurityInfo>();
@@ -101,7 +95,7 @@ namespace Client
                     }
                 }
 
-                jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(list);
+                jsonStr = Util.JsonUtils.SerializeObject(list);
                 System.IO.File.WriteAllText(App.FullName, jsonStr);
                 initData();
             }
@@ -152,7 +146,6 @@ namespace Client
 
             DataObject.AddPastingHandler(this.txtImage, pastingEvent);
         }
-
 
         private void pastingEvent(object sender, DataObjectPastingEventArgs e)
         {

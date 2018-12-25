@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Util.OCR;
 
 namespace UnitTest
 {
@@ -9,7 +10,7 @@ namespace UnitTest
         [TestInitialize]
         public void Init()
         {
-            Client.OCRUtils_Baidu.InitBaiduKey();
+            OCRUtils_Baidu.InitBaiduKey();
         }
 
 
@@ -25,7 +26,7 @@ namespace UnitTest
                 fs.Read(byteArr_Image, 0, byteArr_Image.Length);
             }
 
-            var r = Client.OCRUtils_Baidu.Excute_GeneralBasic(byteArr_Image);
+            var r = OCRUtils_Baidu.Excute_GeneralBasic(byteArr_Image);
 
             Assert.AreEqual<bool>(true, r.IsSuccess);
             Assert.AreEqual<int>(2, r.Details.Count);
@@ -49,7 +50,7 @@ namespace UnitTest
                 fs.Read(byteArr_Image, 0, byteArr_Image.Length);
             }
 
-            var r = Client.OCRUtils_Baidu.Excute_General(byteArr_Image);
+            var r = OCRUtils_Baidu.Excute_General(byteArr_Image);
 
             Assert.AreEqual<bool>(true, r.IsSuccess);
             Assert.AreEqual<int>(2, r.Details.Count);
@@ -73,7 +74,7 @@ namespace UnitTest
                 fs.Read(byteArr_Image, 0, byteArr_Image.Length);
             }
 
-            var r = Client.OCRUtils_Baidu.Excute_AccurateBasic(byteArr_Image);
+            var r = OCRUtils_Baidu.Excute_AccurateBasic(byteArr_Image);
 
             Assert.AreEqual<bool>(true, r.IsSuccess);
             Assert.AreEqual<int>(2, r.Details.Count);
@@ -97,7 +98,7 @@ namespace UnitTest
                 fs.Read(byteArr_Image, 0, byteArr_Image.Length);
             }
 
-            var r = Client.OCRUtils_Baidu.Excute_Accurate(byteArr_Image);
+            var r = OCRUtils_Baidu.Excute_Accurate(byteArr_Image);
 
             Assert.AreEqual<bool>(true, r.IsSuccess);
             Assert.AreEqual<int>(2, r.Details.Count);
